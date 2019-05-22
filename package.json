@@ -1,10 +1,10 @@
 {
-  "name": "arvo",
+  "name": "arvo-pupil-labs",
   "version": "1.0.0",
   "description": "NodeJS client app for Pupil labs",
   "main": "index.js",
   "scripts": {
-    "run": "node ./index"
+    "run": "node ./index.js"
   },
   "author": "Oleg Spakov",
   "license": "MIT",

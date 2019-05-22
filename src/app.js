@@ -58,17 +58,28 @@ const app = {
       subscribers.close();
     }
   },
-  
+
+  /// Sends a request to Pupil and fires callback function upon receiving response
+  /// Args:
+  ///  - id: String - a value from pupil.js/REQUESTS list
+  ///  - cb: Function( reply ) - a callback that receives the response
   request( id, cb ) {
     requester.send( new Request( id, cb) );
   },
   
+  /// Sends a command to Pupil and fires callback function upon receiving response
+  /// Args:
+  ///  - id: [ topic: String: payload: Object ]
+  ///  - cb: Function( reply ) - a callback that receives the response
   command( payload, cb ) {
     const payloadEnc = serializer.encode( payload);
     const req = new Request( [ payload.topic, payloadEnc ], cb );
     requester.send( req );
   },
   
+  /// Sends a notification to Pupil
+  /// Args:
+  ///  - notification: Object - must have "subject" field
   notify( notification ) {
     const topic = 'notify.' + notification.subject;
     notification.topic = topic;
@@ -78,6 +89,7 @@ const app = {
     
     requester.send( notificationRequest );
   },
+  
 };
 
 

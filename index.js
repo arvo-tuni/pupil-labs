@@ -1,7 +1,6 @@
 // Imports
 
 const app = require('./src/app');
-const { REQUESTS } = require('./src/pupil');
 const Request = require('./src/request');
 const Subscriber = require('./src/subscriber');
 const Messages = require('./src/messages');     // currently not used, see message format there
