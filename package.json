@@ -1,0 +1,16 @@
+{
+  "name": "arvo",
+  "version": "1.0.0",
+  "description": "NodeJS client app for Pupil labs",
+  "main": "index.js",
+  "scripts": {
+    "run": "node ./index"
+  },
+  "author": "Oleg Spakov",
+  "license": "MIT",
+  "dependencies": {
+    "command-line-args": "^5.1.1",
+    "msgpack-lite": "^0.1.26",
+    "zeromq": "^5.1.0"
+  }
+}
