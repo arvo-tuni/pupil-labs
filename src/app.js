@@ -50,10 +50,12 @@ const app = {
   stop( subscribers ) {
     if (Array.isArray( subscribers )) {
       _subscribers = _subscribers.filter( sub => !subscribers.includes( sub ) );
+      log.debug( `  removing ${subscribers.length} subscribers` );
       subscribers.forEach( subscriber => subscriber.close() );
     }
     else {
       _subscribers = _subscribers.filter( sub => sub !== subscribers );
+      log.debug( `  removing 1 subscriber` );
       subscribers.close();
     }
   },
@@ -61,19 +63,40 @@ const app = {
   /// Sends a request to Pupil and fires callback function upon receiving response
   /// Args:
   ///  - id: String - a value from pupil.js/REQUESTS list
-  ///  - cb: Function( reply ) - a callback that receives the response
+  ///  - cb: Function( reply ) - a callback that receives the response;  
+  ///      if a callback is not provided, the function returns a promise
   request( id, cb ) {
-    requester.send( new Request( id, cb) );
+    if (cb) {
+      requester.send( new Request( id, cb ) );
+    }
+    else {
+      return new Promise( resolve => {
+        requester.send( new Request( id, resp => {
+          resolve( resp );
+        }) );
+      });
+    }
   },
   
   /// Sends a command to Pupil and fires callback function upon receiving response
   /// Args:
   ///  - cmd: { topic: String, ... } - an object with "topic" field at least
-  ///  - cb: Function( reply ) - a callback that receives the response
+  ///  - cb: Function( reply ) - a callback that receives the response;
+  ///      if a callback is not provided, the function returns a promise
   command( cmd, cb ) {
     const payload = serializer.encode( cmd );
-    const req = new Request( [ cmd.topic, payload ], cb );
-    requester.send( req );
+    if (cb) {
+      const req = new Request( [ cmd.topic, payload ], cb );
+      requester.send( req );
+    }
+    else {
+      return new Promise( resolve => {
+        const req = new Request( [ cmd.topic, payload ], resp => {
+          resolve( resp );
+        });
+        requester.send( req );
+      });
+    }
   },
   
   /// Sends a notification to Pupil

@@ -4,6 +4,7 @@ const app = require('./src/app');
 const Subscriber = require('./src/subscriber');
 const { REQUESTS } = require('./src/pupil');
 const Messages = require('./src/messages');     // currently not used, see message format there
+const log = require('./src/log')( 'MAIN' );
 
 
 // Uncomment required subscribers and modify their callbacks
@@ -34,7 +35,7 @@ app.start( subscribers );
 // Example of sending notification to Pupil to enabled Log_History plugin
 
 setTimeout( _ => {
-  console.log( '[MAIN] send request to start LogHistory' );
+  log.info( 'Send request to start LogHistory' );
   app.notify({ 'subject': 'start_plugin', 'name': 'Log_History' });
 }, 1000);
 
@@ -42,21 +43,21 @@ setTimeout( _ => {
 
 setTimeout( _ => {
   
-  console.log( '[MAIN] send timestamp request' );
-  app.request( REQUESTS.timestamp, timestamp => {
-
-    // upon receiving a timestamp, send some logging info into Pupil
-    const cmd = { 
-      levelname: 'INFO', 
-      name: 'NODEJS', 
-      msg: 'Log message from NodeJS', 
-      timestamp,
-      topic: 'logging.info',
-    };
-  
-    console.log( `[MAIN] send info "${ cmd.msg }" to Pupil` );
-    app.command( cmd );
-  });
+  log.info( 'Send timestamp request' );
+  app.request( REQUESTS.timestamp )
+    .then( timestamp => {
+      // upon receiving a timestamp, send some logging info into Pupil
+      const cmd = { 
+        levelname: 'INFO', 
+        name: 'NODEJS', 
+        msg: 'Log message from NodeJS', 
+        timestamp,
+        topic: 'logging.info',
+      };
+    
+      log.info( `Send info "${ cmd.msg }" to Pupil` );
+      app.command( cmd ).then( resp => log.info( `Reply: "${resp}"`) );
+    });
   
 }, 2000 );
 
@@ -64,18 +65,18 @@ setTimeout( _ => {
 // Adding a new subscriber
 
 const annotationTracker = Subscriber.create.annotation( annotation => {
-  console.log( `[MAIN] -- got annotation "${annotation.label}" at ${annotation.timestamp} --` );
+  log.info( `Got annotation "${annotation.label}" at ${annotation.timestamp} --` );
 });
 
 setTimeout( _ => {
-  console.log( '[MAIN] add annotation tracker' );
+  log.info( 'Add annotation tracker' );
   app.start( annotationTracker );
 }, 3000);
 
 // Removing this subscriber
 
 setTimeout( _ => {
-  console.log( '[MAIN] removing annotation tracker' );
+  log.info( 'Removing annotation tracker' );
   app.stop( annotationTracker );
 }, 10000);
 

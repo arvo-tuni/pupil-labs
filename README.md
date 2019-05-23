@@ -65,8 +65,11 @@ Sends a request to Pupil and fires callback function upon receiving response
 
 Arguments:
  - `id: String` - a value from *pupil.js/REQUESTS* list
- - `cb: Function( resp )` - a callback that receives the response
+ - `cb: Function( resp )` - a callback that receives the response; if a callback is not provided, the function returns a promise
 
+Returns:
+ `Promise` if a callback is not provided, undefined otherwise
+ 
 Example:
 
 ```js
@@ -83,7 +86,10 @@ Sends a command to Pupil and fires callback function upon receiving response
 
 Arguments:
  - `cmd: { topic: String, ... }` - an object with *topic* field at least
- - `cb: Function( resp )` - a callback that receives the response
+ - `cb: Function( resp )` - a callback that receives the response; if a callback is not provided, the function returns a promise
+
+Returns:
+ `Promise` if a callback is not provided, undefined otherwise
 
 Example:
 

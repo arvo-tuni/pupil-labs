@@ -28,27 +28,27 @@ class Requester {
   constructor() {
 
     _requester.on( 'connect', delay => {
-      log.debug( `connected in ${delay} ms` );
+      log.debug( `  connected in ${delay} ms` );
       _isConnected = true;
       this._checkQueue();
     });
     
     _requester.on( 'disconnect', _ => {
-      log.debug( 'disconnected' );
+      log.debug( 'Disconnected' );
       _isConnected = false;
       });
  
     _requester.on( 'connect_retry', _ => {
-      log.debug( `retry connecting: ${_}` );
+      log.debug( `Retry connecting: ${_}` );
     });
     
     _requester.on( 'close', _ => {
-      log.debug( 'closed' );
+      log.debug( 'Closed' );
       _isConnected = false;
     });
     
     _requester.on( 'message', reply => {
-      log.debug( `got reply "${reply}"` );
+      log.debug( `  got reply "${reply}"` );
       
       const request = _queue.shift();
       if (request.process) {
@@ -88,7 +88,7 @@ class Requester {
     this._getPort().then( port => {
       const url = makeURL( port );
 
-      log.debug( `Starting ${subscribers.length} subscribers` );
+      log.debug( `  starting ${subscribers.length} subscribers` );
       subscribers.forEach( subscriber => {
         subscriber.connect( url );
       });
@@ -124,7 +124,7 @@ class Requester {
       const req = _queue[0];
       setTimeout( _ => _requester.send( req.data ), 0);    // using setTimeout here to unbind the request sending from the curernt routine which may be called from the Pupil reply callback
 
-      log.debug( `sending next request "${Array.isArray(req.data) ? req.data[0] : req.data}"` );
+      log.debug( `  sending next request "${Array.isArray(req.data) ? req.data[0] : req.data}"` );
     }
   }
   
@@ -139,10 +139,10 @@ class Requester {
           const port = +reply;
 
           if (port <= 0 || 65355 < port) {
-            return reject( `Invalid subscription port "${port}".` );
+            return reject( `  invalid subscription port "${port}".` );
           }
           
-          log.debug( `Subscription port is "${port}".` );
+          log.debug( `  subscription port is "${port}".` );
 
           _port = port;
           resolve( port );
