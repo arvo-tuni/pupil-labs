@@ -46,7 +46,7 @@ const annotationTracker = Subscriber.create.annotation( annotation => {
 app.start( annotationTracker );
 ```
 
-### app.stop( subscribers ) {
+### app.stop( subscribers )
   
 Disconnects subscribers to Pupil.
 
@@ -77,7 +77,7 @@ app.request( REQUESTS.timestamp, timestamp => {
 });
 ```
 
-### app.command( cmd, cb ) {
+### app.command( cmd, cb )
 
 Sends a command to Pupil and fires callback function upon receiving response
 
@@ -100,7 +100,7 @@ app.command( cmd, resp => {
 });
 ```
 
-### app.notify( notification ) {
+### app.notify( notification )
 
 Sends a notification to Pupil
 
