@@ -1,8 +1,8 @@
 // Imports
 
 const app = require('./src/app');
-const Request = require('./src/request');
 const Subscriber = require('./src/subscriber');
+const { REQUESTS } = require('./src/pupil');
 const Messages = require('./src/messages');     // currently not used, see message format there
 
 
@@ -46,16 +46,16 @@ setTimeout( _ => {
   app.request( REQUESTS.timestamp, timestamp => {
 
     // upon receiving a timestamp, send some logging info into Pupil
-    const payload = { 
+    const cmd = { 
       levelname: 'INFO', 
       name: 'NODEJS', 
       msg: 'Log message from NodeJS', 
-      timestamp, 
-      topic: 'logging.info' 
+      timestamp,
+      topic: 'logging.info',
     };
   
-    console.log( `[MAIN] send info "${ payload.msg }" to Pupil` );
-    app.command( payload );
+    console.log( `[MAIN] send info "${ cmd.msg }" to Pupil` );
+    app.command( cmd );
   });
   
 }, 2000 );

@@ -52,7 +52,7 @@ class Requester {
       
       const request = _queue.shift();
       if (request.process) {
-        setTimeout( _ => request.process( reply ), 0); // using setTimeout here to fire the callback after network communication ends
+        setTimeout( _ => request.process( reply ), 0); // using setTimeout here to fire the callback after the network communication ends
       }
     
       _busy = false;

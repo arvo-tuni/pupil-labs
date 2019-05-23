@@ -6,7 +6,6 @@ const serializer = require('msgpack-lite');
 
 const log = require('./log')( 'APPC' );
 const requester = require('./requester');
-const { REQUESTS } = require('./pupil');
 const Request = require('./request');
 
 
@@ -69,17 +68,17 @@ const app = {
   
   /// Sends a command to Pupil and fires callback function upon receiving response
   /// Args:
-  ///  - id: [ topic: String: payload: Object ]
+  ///  - cmd: { topic: String, ... } - an object with "topic" field at least
   ///  - cb: Function( reply ) - a callback that receives the response
-  command( payload, cb ) {
-    const payloadEnc = serializer.encode( payload);
-    const req = new Request( [ payload.topic, payloadEnc ], cb );
+  command( cmd, cb ) {
+    const payload = serializer.encode( cmd );
+    const req = new Request( [ cmd.topic, payload ], cb );
     requester.send( req );
   },
   
   /// Sends a notification to Pupil
   /// Args:
-  ///  - notification: Object - must have "subject" field
+  ///  - notification: { subject: String, ... } - must have "subject" field
   notify( notification ) {
     const topic = 'notify.' + notification.subject;
     notification.topic = topic;
