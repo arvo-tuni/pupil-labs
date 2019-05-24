@@ -68,7 +68,7 @@ Arguments:
  - `cb: Function( resp )` - a callback that receives the response; if a callback is not provided, the function returns a promise
 
 Returns:
- `Promise` if a callback is not provided, undefined otherwise
+ - `Promise` if a callback is not provided, `undefined` otherwise
  
 Example:
 
@@ -78,6 +78,13 @@ const { REQUESTS } = require('./pupil');
 app.request( REQUESTS.timestamp, timestamp => {
   // do something with the timestamp
 });
+
+// or
+
+app.request( REQUESTS.timestamp ).then( timestamp => {
+  // do something with the timestamp
+});
+
 ```
 
 ### app.command( cmd, cb )
@@ -89,7 +96,7 @@ Arguments:
  - `cb: Function( resp )` - a callback that receives the response; if a callback is not provided, the function returns a promise
 
 Returns:
- `Promise` if a callback is not provided, undefined otherwise
+ - `Promise` if a callback is not provided, `undefined` otherwise
 
 Example:
 
@@ -102,6 +109,12 @@ const cmd = {
 };
   
 app.command( cmd, resp => {
+  console.log( resp );
+});
+
+// or   
+
+app.command( cmd ).then( resp => {
   console.log( resp );
 });
 ```
@@ -119,11 +132,11 @@ Example:
 app.notify({ 'subject': 'start_plugin', 'name': 'Log_History' });
 ```
 
-## Run
+## Run an example app
 
 Pupil Capture application must be running before you run the application.
 
-Run the application in console as
+Run the example application in console as
 
 ```bash
 node index.js

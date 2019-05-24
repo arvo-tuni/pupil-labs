@@ -52,7 +52,7 @@ class Requester {
       
       const request = _queue.shift();
       if (request.process) {
-        setTimeout( _ => request.process( reply ), 0); // using setTimeout here to fire the callback after the network communication ends
+        setImmediate( _ => request.process( reply ) ); // using setImmediate here to fire the callback after the network communication ends
       }
     
       _busy = false;
@@ -122,7 +122,7 @@ class Requester {
       _busy = true;
       
       const req = _queue[0];
-      setTimeout( _ => _requester.send( req.data ), 0);    // using setTimeout here to unbind the request sending from the curernt routine which may be called from the Pupil reply callback
+      setImmediate( _ => _requester.send( req.data ) );    // using setImmediate here to unbind the request sending from the curernt routine which may be called from the Pupil reply callback
 
       log.debug( `  sending next request "${Array.isArray(req.data) ? req.data[0] : req.data}"` );
     }

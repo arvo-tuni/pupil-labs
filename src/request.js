@@ -5,9 +5,9 @@ class Request {
   /// Args
   ///  - data: <any value from pupil.js/REQUESTS> | [topic: String, payload: Buffer] - payload should be encoded with MsgPack
   ///  - process: Function( reply ) - a callback to be called when the reply is recevied
-  constructor( data, cb ) {
+  constructor( data, process ) {
     this.data = data;
-    this.process = cb;
+    this.process = process;
   }
 
 }
