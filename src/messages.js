@@ -3,6 +3,11 @@
  * The class definitions only indicate what data fields are available and 
  * of what type they are. Some fields has fixed values, these are described
  * in comments. Units are also described in comments whenever appropriate.
+ *
+ * IMPORTANT!
+ * Starting from June 2019, 2D and 3D points in Gaze are of type "Number[]" rahter than {x: Number, y: Number}
+ * Probably, type of points was also changed in other definitions.
+ * THESE CHANGES SHOULD BE REFLECTED IN THIS FILE!
  */
 
 // Inner types
