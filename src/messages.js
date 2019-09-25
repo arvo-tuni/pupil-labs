@@ -12,20 +12,27 @@
 
 // Inner types
 
-class Vector2D { constructor() {
-  this.x = Number;
-  this.y = Number;
-}}
+// class Vector2D { constructor() {
+//   this.x = Number;
+//   this.y = Number;
+// }}
 
-// class Vector2D extends Array{ }
+class Vector2D extends Array{ 
+  get x() { return this[0]; }
+  get y() { return this[1]; }
+}
 
-class Vector3D { constructor() {
-  this.x = Number;
-  this.y = Number;
-  this.z = Number;
-}}
+// class Vector3D { constructor() {
+//   this.x = Number;
+//   this.y = Number;
+//   this.z = Number;
+// }}
 
-// class Vector3D extends Array{ }
+class Vector3D extends Array{
+  get x() { return this[0]; }
+  get y() { return this[1]; }
+  get z() { return this[2]; }
+}
 
 class Circle3D { constructor() {
   this.center = Vector3D;
