@@ -80,7 +80,7 @@ const app = {
   
   /// Sends a command to Pupil and fires callback function upon receiving response
   /// Args:
-  ///  - cmd: { topic: String, ... } - an object with "topic" field at least
+  ///  - cmd: { topic: String, ... } - must include "topic" field
   ///  - cb: Function( reply ) - a callback that receives the response;
   ///      if a callback is not provided, the function returns a promise
   command( cmd, cb ) {
@@ -101,7 +101,7 @@ const app = {
   
   /// Sends a notification to Pupil
   /// Args:
-  ///  - notification: { subject: String, ... } - must have "subject" field
+  ///  - notification: { subject: String, ... } - must include "subject" field
   notify( notification ) {
     const topic = 'notify.' + notification.subject;
     notification.topic = topic;

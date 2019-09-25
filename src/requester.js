@@ -21,10 +21,10 @@ let _port = 0;
 const makeURL = port => `tcp://${_host}:${port}`;   // creates URL given the port
 
 
-/// Handles request sending and partialy handles respond from the Pupil
+/// Handles request sending and partially handles respond from the Pupil
 class Requester {
 
-  /// Constgructor. Sets event callbacks
+  /// Constructor. Sets event callbacks
   constructor() {
 
     _requester.on( 'connect', delay => {
@@ -63,7 +63,7 @@ class Requester {
   }
 
   
-  /// Opens the requester communication channel. Shoud be called prior sending any requests.
+  /// Opens the requester communication channel. Should be called prior sending any requests.
   /// Args
   ///  - host: String - host IP address
   ///  - port: Number - port to send requests to
@@ -122,7 +122,7 @@ class Requester {
       _busy = true;
       
       const req = _queue[0];
-      setImmediate( _ => _requester.send( req.data ) );    // using setImmediate here to unbind the request sending from the curernt routine which may be called from the Pupil reply callback
+      setImmediate( _ => _requester.send( req.data ) );    // using setImmediate here to unbind the request sending from the current routine which may be called from the Pupil reply callback
 
       log.debug( `  sending next request "${Array.isArray(req.data) ? req.data[0] : req.data}"` );
     }
@@ -156,7 +156,7 @@ class Requester {
 }
 
 
-// the requester is a singlton
+// the requester is a singleton
 const requester = new Requester();
 
 module.exports = requester;

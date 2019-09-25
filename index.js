@@ -67,7 +67,7 @@ const annotationTracker = Subscriber.create.annotation( annotation => {
 });
 
 setTimeout( _ => {
-  log.info( 'Add annotation tracker. NOTE: you should enable "Annotation capture" and add some annotation in PupilCapture, then hit the annotation button in Pupilapture in order to see the offect of this demo.' );
+  log.info( 'Add annotation tracker. NOTE: you should enable "Annotation capture" and add some annotation in PupilCapture, then hit the annotation button in PupilCapture in order to see the effect of this demo.' );
   app.start( annotationTracker );
 }, 3000);
 
@@ -86,7 +86,7 @@ const gazeTracker = Subscriber.create.gaze( gaze => {
 });
 	
 setTimeout( _ => {
-  log.info( 'Add gaze tracker.' );
+  log.info( 'Adding gaze tracker' );
   app.start( gazeTracker );
 }, 12000);
 

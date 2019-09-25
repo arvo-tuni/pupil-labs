@@ -5,7 +5,7 @@
  * in comments. Units are also described in comments whenever appropriate.
  *
  * IMPORTANT!
- * Starting from June 2019, 2D and 3D points in Gaze are of type "Number[]" rahter than {x: Number, y: Number}
+ * Starting from June 2019, 2D and 3D points in Gaze are of type "Number[]" rather than {x: Number, y: Number}
  * Probably, type of points was also changed in other definitions.
  * THESE CHANGES SHOULD BE REFLECTED IN THIS FILE!
  */
@@ -17,11 +17,15 @@ class Vector2D { constructor() {
   this.y = Number;
 }}
 
+// class Vector2D extends Array{ }
+
 class Vector3D { constructor() {
   this.x = Number;
   this.y = Number;
   this.z = Number;
 }}
+
+// class Vector3D extends Array{ }
 
 class Circle3D { constructor() {
   this.center = Vector3D;
