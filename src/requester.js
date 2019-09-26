@@ -69,14 +69,14 @@ class Requester {
   ///  - port: Number - port to send requests to
   connect( host, port ) {
     _host = host;
-    const url = makeURL( port ); 
+    const url = makeURL( port );
     _requester.connect( url );
   }
   
   
   /// Closes the requester communication channel
   close() {
-    _requester.close();   
+    _requester.close();
   }
   
   
@@ -107,7 +107,7 @@ class Requester {
     if (!_busy && _isConnected) {
       _busy = true;
       log.debug( `  sending request "${Array.isArray(req.data) ? req.data[0] : req.data}"` );
-      _requester.send( req.data );   
+      _requester.send( req.data );
     }
     else {
       log.debug( `  busy... request "${Array.isArray(req.data) ? req.data[0] : req.data}" queued` );

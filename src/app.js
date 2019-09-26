@@ -22,9 +22,7 @@ requester.connect( HOST_ADDRESS, REQUEST_PORT );
 
 // finilizing when Ctrl+C is pressed
 process.on( 'SIGINT', () => {
-  _subscribers.forEach( subscriber => subscriber.close() );
-  requester.close();
-  log.debug( 'Closed' );
+  app.quit();
 });
 
 /// Exported API
@@ -112,6 +110,17 @@ const app = {
     requester.send( notificationRequest );
   },
   
+  /// Quits the application
+  quit() {
+    _subscribers.forEach( subscriber => subscriber.close() );
+    requester.close();
+    log.debug( 'Closed' );
+  },
+  
+  /// Returns the number of connected subscribers
+  get subscribersCount() {
+    return _subscribers.length;
+  },
 };
 
 

@@ -44,6 +44,10 @@ setTimeout( _ => {
   log.info( 'Send timestamp request' );
   app.request( REQUESTS.timestamp )
     .then( timestamp => {
+      log.info( `Timestamp is ${timestamp}` );
+	  return Promise.resolve( timestamp );
+	}).
+	then( timestamp => {
       // upon receiving a timestamp, send some logging info into Pupil
       const cmd = { 
         levelname: 'INFO', 
@@ -97,3 +101,11 @@ setTimeout( _ => {
   app.stop( gazeTracker );
 }, 16000);
 
+setTimeout( _ => {
+  log.info( 'Removing all subscribers' );
+  app.stop( subscribers );
+  
+  if (app.subscribersCount === 0) {
+    app.quit();
+  }
+}, 18000);

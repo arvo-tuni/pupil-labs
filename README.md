@@ -17,9 +17,13 @@ cd pupil-labs
 npm install
 ```
 
+## Demo
+
+The package comes with a demo that is implemented in `index.js` file. To run it, open a console in the project root folder and run it with `node ./index.js` command. Note that Pupil Capture must be running already before the demo starts. You can also open the `Annotations` plugin in Pupil Capture (it will automatically create one annotation), and after the demo starts press an annotation button in the Pupil Capture GUI (by default, this is "E"). The annotation message will be received by the demoing application. The demo will soon continue with capturing gaze data for a few seconds.
+
 ## Usage and API
 
-Create a JS file in the project root folder that will be a starting point of your application. You can also modify the existing index.js file that serves as a template for you application.
+Create a JS file in the project root folder that will be a starting point of your application. You can also modify the existing `index.js` file that may serve as a template for your application.
 
 In the JS file, import the app:
 
@@ -35,6 +39,8 @@ Then:
  - Send commands and notifications to the Pupil
 
 See the index.js file that comes with the package to get overview of what subscribers are available.
+
+**Important!** Pupil Capture allows only one client connection. It means, that only one application can connect to Pupil Capture and receive data, and even after this application is stopped no other (or same) applications can connect to it anymore until Pupil Capture is restarted.
 
 **API**
 
