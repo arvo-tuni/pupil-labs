@@ -145,7 +145,9 @@ class Requester {
           log.debug( `  subscription port is "${port}".` );
 
           _port = port;
-          resolve( port );
+
+          setTimeout( () => resolve( port ), 0 ); // allow the callback to be finished before we return the port number
+                                                  // to the procedure when a new connection may be requested immediately
         });
         
         this.send( subPortRequest );
