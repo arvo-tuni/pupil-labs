@@ -1,9 +1,9 @@
 // Imports
 
-const zmq = require('zeromq');
-const serializer = require('msgpack-lite');
+const zmq = require( 'zeromq' );
+const serializer = require( 'msgpack-lite' );
 
-const log = require('./log')( 'SUBS' );
+const log = require( './log' )( 'SUBS' );
 
 
 /// Pupil supported topics
@@ -23,7 +23,6 @@ const TOPICS = [
 const _factory = {};
 TOPICS.forEach( topic => _factory[ topic ] = cb => new Subscriber( topic, cb ) );
 _factory[ 'other' ] = cb => new Subscriber( '', cb );
-    
 
 
 /// Received messages of a given topic
