@@ -1,12 +1,13 @@
 // Imports
 
-const zmq = require('zeromq');
-const process = require('process');
-const serializer = require('msgpack-lite');
+import process from 'process';
+import serializer from 'msgpack-lite';
 
-const log = require('./log')( 'APPC' );
-const requester = require('./requester');
-const Request = require('./request');
+import logFactory from './log';
+import requester from './requester';
+import Request from './request';
+import Subscriber from './subscriber';
+import { Message, Notification } from './messages';
 
 
 // Constants
@@ -15,7 +16,10 @@ const HOST_ADDRESS = '127.0.0.1';
 const REQUEST_PORT = 50020;
 
 // Main routine
-let _subscribers = [];
+
+const log = logFactory( 'APPC' );
+
+let _subscribers: Subscriber[] = [];
 
 log.debug( 'Started' );
 requester.connect( HOST_ADDRESS, REQUEST_PORT );
@@ -27,11 +31,11 @@ process.on( 'SIGINT', () => {
 
 /// Exported API
 const app = {
-  
+
   /// Connects subscribers to Pupil
   /// Args:
-  ///  - subscribers: [Subscriber] | Subscriber
-  start( subscribers ) {
+  ///  - subscribers: Subscriber[] | Subscriber
+  start( subscribers: Subscriber[] | Subscriber ) {
     if (Array.isArray( subscribers )) {
       _subscribers = _subscribers.concat( subscribers );
       requester.subscribe( subscribers );
@@ -41,11 +45,11 @@ const app = {
       requester.subscribe( [ subscribers ] );
     }
   },
-  
+
   /// Disconnects subscribers to Pupil
   /// Args:
-  ///  - subscribers: [Subscriber] | Subscriber
-  stop( subscribers ) {
+  ///  - subscribers: Subscriber[] | Subscriber
+  stop( subscribers: Subscriber[] | Subscriber ) {
     if (Array.isArray( subscribers )) {
       _subscribers = _subscribers.filter( sub => !subscribers.includes( sub ) );
       log.debug( `  removing ${subscribers.length} subscribers` );
@@ -61,9 +65,9 @@ const app = {
   /// Sends a request to Pupil and fires callback function upon receiving response
   /// Args:
   ///  - id: String - a value from pupil.js/REQUESTS list
-  ///  - cb: Function( reply ) - a callback that receives the response;  
+  ///  - cb: Function( reply ) - a callback that receives the response;
   ///      if a callback is not provided, the function returns a promise
-  request( id, cb ) {
+  request( id: string, cb?: (replay: any) => void ) {
     if (cb) {
       requester.send( new Request( id, cb ) );
     }
@@ -75,13 +79,13 @@ const app = {
       });
     }
   },
-  
+
   /// Sends a command to Pupil and fires callback function upon receiving response
   /// Args:
   ///  - cmd: { topic: String, ... } - must include "topic" field
   ///  - cb: Function( reply ) - a callback that receives the response;
   ///      if a callback is not provided, the function returns a promise
-  command( cmd, cb ) {
+  command( cmd: Message, cb?: (replay: any) => void ) {
     const payload = serializer.encode( cmd );
     if (cb) {
       const req = new Request( [ cmd.topic, payload ], cb );
@@ -96,27 +100,27 @@ const app = {
       });
     }
   },
-  
+
   /// Sends a notification to Pupil
   /// Args:
   ///  - notification: { subject: String, ... } - must include "subject" field
-  notify( notification ) {
+  notify( notification: Notification ) {
     const topic = 'notify.' + notification.subject;
     notification.topic = topic;
-    
+
     const payload = serializer.encode( notification );
     const notificationRequest = new Request( [ topic, payload ] );
-    
+
     requester.send( notificationRequest );
   },
-  
+
   /// Quits the application
   quit() {
     _subscribers.forEach( subscriber => subscriber.close() );
     requester.close();
     log.debug( 'Closed' );
   },
-  
+
   /// Returns the number of connected subscribers
   get subscribersCount() {
     return _subscribers.length;
@@ -124,4 +128,4 @@ const app = {
 };
 
 
-module.exports = app;
+export default app;

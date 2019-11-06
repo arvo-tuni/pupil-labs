@@ -4,7 +4,10 @@
   "description": "NodeJS client app for Pupil labs",
   "main": "index.js",
   "scripts": {
-    "run": "node ./index.js"
+    "build": "tsc",
+    "serve": "ts-node-dev --respawn --transpileOnly ./index.ts",
+    "start": "node -r esm ./build/index.js",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "author": "Oleg Spakov",
   "license": "MIT",
@@ -12,5 +15,15 @@
     "command-line-args": "^5.1.1",
     "msgpack-lite": "^0.1.26",
     "zeromq": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/command-line-args": "^5.0.0",
+    "@types/msgpack-lite": "^0.1.7",
+    "@types/node": "^12.12.5",
+    "@types/zeromq": "^4.6.2",
+    "esm": "^3.2.25",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "tslint": "^6.0.0-beta0",
+    "typescript": "^3.6.4"
   }
 }

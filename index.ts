@@ -1,11 +1,12 @@
 // Imports
 
-const app = require('./src/app');
-const Subscriber = require('./src/subscriber');
-const { REQUESTS } = require('./src/pupil');
-const Messages = require('./src/messages');     // not used in this file, serves only as a reference to study messages' format
-const Surface = require('./src/messages').Surface;
-const log = require('./src/log')( 'MAIN' );
+import app from './src/app';
+import Subscriber from './src/subscriber';
+import REQUESTS from './src/pupil';
+import { Surface } from './src/messages';
+import logFactory from './src/log';
+
+const log = logFactory( 'MAIN' );
 
 
 // Uncomment required subscribers and modify their callbacks
@@ -13,7 +14,7 @@ const subscribers = [
   // Subscriber.create.pupil( pupil => console.log(`[PUPL] ${pupil.id}: ${pupil.norm_pos[0]} ${pupil.norm_pos[0]}`) ),
   // Subscriber.create.gaze( gaze => console.log(`[GAZE] ${gaze.norm_pos[0]} ${gaze.norm_pos[0]}`) ),
   // Subscriber.create.fixation( fixation => console.log(`[FIXN] ${fixation.norm_pos[0]} ${fixation.norm_pos[1]}`) ),
-  // Subscriber.create.surfaces( onSurface ),
+  Subscriber.create.surfaces( onSurface ),
   // Subscriber.create.blinks( blink => console.log(`[BLNK] ${blink.timestamp} blink ${blink.type}`) ),
   // Subscriber.create.annotation( annotation => console.log(`[ANNT] ${annotation.timestamp} ${annotation.label}`) ),
   // Subscriber.create.frame( (frame, /** @type {Buffer} */ image) => {
@@ -22,7 +23,7 @@ const subscribers = [
       // do something with "image" here, it is of type "Buffer"
   //   }
   // }),
-  Subscriber.create.logging( log => console.log( `[LOGS] ${JSON.stringify( log )}` ) ),
+  // Subscriber.create.logging( (log: any) => console.log( `[LOGS] ${JSON.stringify( log )}` ) ),
   // Subscriber.create.notify( ntf => console.log( `[NTFY] ${JSON.stringify( ntf )}` ) ),
   // Subscriber.create.other( (data, extras) => console.log( `[OTHR] -- ${JSON.stringify( data )}${extras ? ', has extras' : ''}` ) ),
 ];
@@ -122,17 +123,10 @@ app.start( subscribers );
 //   }
 // }, 18000);
 
-/**
- * @param {Surface} surface
- */
-function onSurface( surface ) {
+function onSurface( surface: Surface ) {
   if (surface.gaze_on_surfaces.length > 0) {
     const gaze = surface.gaze_on_surfaces[0];
     console.log(`[SURF] ${surface.name} : ${JSON.stringify( gaze )}`);
   }
   // console.log(`[SURF] ${surface.name} ${JSON.stringify( surface.gaze_on_srf[0].on_srf )}`);
-}
-
-function logData( data ) {
-  console.log(`[DATA] ${JSON.stringify( data )}`);
 }
