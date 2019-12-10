@@ -1,6 +1,4 @@
 // Imports
-
-import process from 'process';
 import serializer from 'msgpack-lite';
 
 import logFactory from './log';
@@ -21,14 +19,6 @@ const log = logFactory( 'APPC' );
 
 let _subscribers: Subscriber[] = [];
 
-log.debug( 'Started' );
-requester.connect( HOST_ADDRESS, REQUEST_PORT );
-
-// finilizing when Ctrl+C is pressed
-process.on( 'SIGINT', () => {
-  app.quit();
-});
-
 /// Exported API
 const app = {
 
@@ -36,6 +26,9 @@ const app = {
   /// Args:
   ///  - subscribers: Subscriber[] | Subscriber
   start( subscribers: Subscriber[] | Subscriber ) {
+    log.debug( 'Started' );
+    requester.connect( HOST_ADDRESS, REQUEST_PORT );
+
     if (Array.isArray( subscribers )) {
       _subscribers = _subscribers.concat( subscribers );
       requester.subscribe( subscribers );

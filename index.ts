@@ -1,4 +1,5 @@
 // Imports
+import process from 'process';
 
 import app from './src/app';
 import Subscriber from './src/subscriber';
@@ -8,6 +9,10 @@ import logFactory from './src/log';
 
 const log = logFactory( 'MAIN' );
 
+// finilizing when Ctrl+C is pressed
+process.on( 'SIGINT', () => {
+  app.quit();
+});
 
 // Uncomment required subscribers and modify their callbacks
 const subscribers = [
