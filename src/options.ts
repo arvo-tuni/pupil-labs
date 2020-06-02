@@ -5,7 +5,9 @@ const CMD_OPT_DEFS = [
   { name: 'help', alias: 'h', type: Boolean, defaultValue: false, description: 'prints this help info' },
 ];
 
-const options = commandLineArgs( CMD_OPT_DEFS );
+const options = commandLineArgs( CMD_OPT_DEFS, {
+  partial: true,
+});
 
 if (options.help) {
   // tslint:disable-next-line
